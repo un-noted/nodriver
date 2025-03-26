@@ -1706,7 +1706,7 @@ class Tab(Connection):
             except:
                 logger.warning("could not unlink temporary screenshot")
             if template_img:
-                return
+                return cx, cy if cx and cy else None
             try:
                 os.unlink("cf_template.png")
             except:  # noqa
