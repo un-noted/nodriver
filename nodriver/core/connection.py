@@ -493,22 +493,6 @@ class Connection(metaclass=CantTouchThis):
 
         if getattr(self, "_prep_headless_done", None):
             return
-        response, error = await self._send_oneshot(
-            cdp.runtime.evaluate(
-                expression="navigator.userAgent",
-                user_gesture=True,
-                await_promise=True,
-                return_by_value=True,
-                allow_unsafe_eval_blocked_by_csp=True,
-            )
-        )
-        if response and response.value:
-            ua = response.value
-            await self._send_oneshot(
-                cdp.network.set_user_agent_override(
-                    user_agent=ua.replace("Headless", ""),
-                )
-            )
         setattr(self, "_prep_headless_done", True)
 
     async def _prepare_expert(self):
